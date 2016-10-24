@@ -7,7 +7,8 @@
 
 #ifndef __TMATRIX_H__
 #define __TMATRIX_H__
-
+# define TOOLARGE -1
+# define NEGATIVEINDEX -2 
 #include <iostream>
 
 using namespace std;
@@ -24,15 +25,19 @@ protected:
   int Size;       // размер вектора
   int StartIndex; // индекс первого элемента вектора
 public:
-  TVector(int s = 10, int si = 0);
+  TVector(int Size = 10, int StartIndex = 0);
   TVector(const TVector &v);                // конструктор копирования
   ~TVector();
   int GetSize()      { return Size;       } // размер вектора
   int GetStartIndex(){ return StartIndex; } // индекс первого элемента
+  ValType& GetElement(int i);
+  void SetElement(int index, ValType element);
+
   ValType& operator[](int pos);             // доступ
   bool operator==(const TVector &v) const;  // сравнение
   bool operator!=(const TVector &v) const;  // сравнение
   TVector& operator=(const TVector &v);     // присваивание
+
 
   // скалярные операции
   TVector  operator+(const ValType &val);   // прибавить скаляр
@@ -59,29 +64,62 @@ public:
   }
 };
 
-template <class ValType>
-TVector<ValType>::TVector(int s, int si)
+template <class ValType>//конструктор инициализации
+TVector<ValType>::TVector(int _size, int startIndex)
 {
+	if (_size <= MAX_VECTOR_SIZE && startIndex >= 0)
+	{
+		Size = _size;
+		StartIndex = startIndex;
+	pVector = new ValType[Size];
+	for (int i = 0; i < Size; i++)
+		pVector[i] = 0;
+	}
+	else if (_size > MAX_VECTOR_SIZE)
+	{
+		cout << "Too large size" << '\n';
+		throw TOOLARGE;
+	}
+	else
+	{
+		cout << "Negative start index" << '\n';
+		throw NEGATIVEINDEX;
+	}
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> //конструктор копирования
 TVector<ValType>::TVector(const TVector<ValType> &v)
 {
+	Size = v.Size;
+	StartIndex = v.StartIndex;
+	pVector = new ValType[Size];
+	for (int i = 0; i < Size; i++)
+		pVector[i] = v.pVector[i];
 } /*-------------------------------------------------------------------------*/
 
-template <class ValType>
+template <class ValType> //деструктор
 TVector<ValType>::~TVector()
 {
+	delete[] pVector;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // доступ
 ValType& TVector<ValType>::operator[](int pos)
 {
+	return GetElement(pos);
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
 bool TVector<ValType>::operator==(const TVector &v) const
 {
+	if (Size = v.Size && StartIndex = v.StartIndex)
+	{
+		for (int i = StartIndex; i < StartIndex + Size; i++)
+			if (pVector[i] != v.pVector[i])
+				return false;
+		return true;
+	}
+	return false;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
@@ -92,6 +130,8 @@ bool TVector<ValType>::operator!=(const TVector &v) const
 template <class ValType> // присваивание
 TVector<ValType>& TVector<ValType>::operator=(const TVector &v)
 {
+	TVector<ValType> tmp = v;
+	return tmp;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // прибавить скаляр
@@ -124,6 +164,36 @@ ValType TVector<ValType>::operator*(const TVector<ValType> &v)
 {
 } /*-------------------------------------------------------------------------*/
 
+template <class ValType>
+ValType& TVector<ValType>::GetElement(int index)
+{
+	ValType tmp = 0;
+	if (index >= 0 && index < StartIndex + Size)
+		if (index >= StartIndex)
+			return  pVector[index];
+		else return tmp;
+	else cout << "Index is wrong"<< '\n';
+}
+
+template <class ValType>
+void TVector<ValType>::SetElement(int index, ValType element)
+{
+	if (index >= 0 && index < StartIndex + Size)
+		if (index >= StartIndex)
+			pVector[index] = element;
+		else if (element != 0)
+		{
+			StartIndex = index;
+			Size += (StartIndex - index);
+			Valtype *tmp = new ValType[Size];
+			tmp[0] = element;
+			for (int i = 1; i < StartIndex - index; i++)
+				tmp[i] = 0;
+			for (int i = StartIndex - index; i < Size; i++)
+				tmp[i] = pVector[i];
+		}
+	else cout << "Index is wrong"<<'\n';
+}
 
 // Верхнетреугольная матрица
 template <class ValType>

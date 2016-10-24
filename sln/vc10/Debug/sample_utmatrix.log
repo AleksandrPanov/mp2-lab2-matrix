@@ -1,0 +1,9 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (gtest.vcxproj, test_utmatrix.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  sample_matrix.cpp
+c:\projects\mp2-lab2-matrix\include\utmatrix.h(258): error C4716: 'TMatrix<int>::operator+': must return a value
+c:\projects\mp2-lab2-matrix\include\utmatrix.h(253): error C4716: 'TMatrix<int>::operator=': must return a value
+c:\projects\mp2-lab2-matrix\include\utmatrix.h(176): warning C4715: 'TVector<int>::GetElement': not all control paths return a value
+c:\projects\mp2-lab2-matrix\include\utmatrix.h(174): warning C4172: returning address of local variable or temporary: tmp
+c:\projects\mp2-lab2-matrix\include\utmatrix.h(134): warning C4172: returning address of local variable or temporary: tmp
+c:\projects\mp2-lab2-matrix\include\utmatrix.h(176): warning C4715: 'TVector<TVector<int> >::GetElement': not all control paths return a value
+c:\projects\mp2-lab2-matrix\include\utmatrix.h(174): warning C4172: returning address of local variable or temporary: tmp

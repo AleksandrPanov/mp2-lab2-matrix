@@ -2,43 +2,46 @@
 
 #include <gtest.h>
 
-TEST(TVector, can_create_vector_with_positive_length)
+namespace Constructors 
 {
-  ASSERT_NO_THROW(TVector<int> v(5));
+
+	TEST(TVector, can_create_vector_with_positive_length)
+	{
+		ASSERT_NO_THROW(TVector<int> v(5));
+	}
+
+	TEST(TVector, cant_create_too_large_vector)
+	{
+		ASSERT_ANY_THROW(TVector<int> v(MAX_VECTOR_SIZE + 1));
+	}
+
+	TEST(TVector, throws_when_create_vector_with_negative_length)
+	{
+		ASSERT_ANY_THROW(TVector<int> v(-5));
+	}
+
+	TEST(TVector, throws_when_create_vector_with_negative_startindex)
+	{
+		ASSERT_ANY_THROW(TVector<int> v(5, -2));
+	}
+
+	TEST(TVector, can_create_copied_vector)
+	{
+		TVector<int> v(10);
+
+		ASSERT_NO_THROW(TVector<int> v1(v));
+	}
+
+	TEST(TVector, copied_vector_is_equal_to_source_one)
+	{
+		ADD_FAILURE();
+	}
+
+	TEST(TVector, copied_vector_has_its_own_memory)
+	{
+		ADD_FAILURE();
+	}
 }
-
-TEST(TVector, cant_create_too_large_vector)
-{
-  ASSERT_ANY_THROW(TVector<int> v(MAX_VECTOR_SIZE + 1));
-}
-
-TEST(TVector, throws_when_create_vector_with_negative_length)
-{
-  ASSERT_ANY_THROW(TVector<int> v(-5));
-}
-
-TEST(TVector, throws_when_create_vector_with_negative_startindex)
-{
-  ASSERT_ANY_THROW(TVector<int> v(5, -2));
-}
-
-TEST(TVector, can_create_copied_vector)
-{
-  TVector<int> v(10);
-
-  ASSERT_NO_THROW(TVector<int> v1(v));
-}
-
-TEST(TVector, copied_vector_is_equal_to_source_one)
-{
-  ADD_FAILURE();
-}
-
-TEST(TVector, copied_vector_has_its_own_memory)
-{
-  ADD_FAILURE();
-}
-
 TEST(TVector, can_get_size)
 {
   TVector<int> v(4);
